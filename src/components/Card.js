@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import './Card.css'
 
 export const Card = ({ card, index, cardBack, flippedCard, disableCards, unflipCards }) => {
   const srcCard = card.src;
@@ -9,12 +10,14 @@ export const Card = ({ card, index, cardBack, flippedCard, disableCards, unflipC
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [canBeClick, setCanBeClick] = useState(true);
+  const [clickedCard, setClickedCard] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     const value = flippedCard(cardComplete)
     if (value !== 0) {
       setIsFlipped(true)
-    }
+      setClickedCard(true)
+    } 
   }
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export const Card = ({ card, index, cardBack, flippedCard, disableCards, unflipC
         setTimeout(() => {
           setIsFlipped(false)
           setCanBeClick(true)
+          setClickedCard(false)
         }, 1000)
       }
     }
@@ -33,12 +37,13 @@ export const Card = ({ card, index, cardBack, flippedCard, disableCards, unflipC
       if(disableCards.some(card => card.index === index)){
         setCanBeClick(false)
         setIsFlipped(true)
+        setClickedCard(true)
       }
     }
   }, [disableCards])
 
   return (
-    <div className="grid-cell"><img src={isFlipped ? srcCard : srcCardBack} alt={nameCard} onClick={canBeClick ? handleClick : ()=>{}} /></div>
+    <div className="grid-cell"><img className={clickedCard ? 'img' : ''} src={isFlipped ? srcCard : srcCardBack} alt={nameCard} onClick={canBeClick ? handleClick : ()=>{}} /></div>
   )
 }
 
