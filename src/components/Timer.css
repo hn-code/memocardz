@@ -1,0 +1,13 @@
+.chronometer{
+  margin: 3% 0;
+  color: white;
+  font-size: 3rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+
+  .chronometer {
+    margin-top: 0px;
+  }
+}

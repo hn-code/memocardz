@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { playerContext } from '../providers/PlayerProvider';
+import './Timer.css'
 
 export const Timer = ({ endGame, timeCD }) => {
 
   const [seconds, setSeconds] = useState(0);
-  const [endTime, setEndTime] = useState(0);
+  const {saveScore} = useContext(playerContext);
 
   useEffect(() => {
     if (timeCD === 0) {
@@ -14,7 +16,7 @@ export const Timer = ({ endGame, timeCD }) => {
         return () => clearInterval(chrono)
       }
     }
-  }, [seconds, timeCD]);
+  }, [seconds, timeCD, endGame]);
 
   let secondsAdapted = seconds % 60;
   let minutesAdapted = Math.floor(seconds / 60)
@@ -27,8 +29,14 @@ export const Timer = ({ endGame, timeCD }) => {
     minutesAdapted = `0${minutesAdapted}`
   }
 
+  useEffect(() => {
+    if(endGame){
+      saveScore(`${minutesAdapted}:${secondsAdapted}`)
+    }
+  },[endGame])
+
   return (
-    <div className='chronometer'>{timeCD === 0
+    <div className='chronometer' id='timer'>{timeCD === 0
       ? `${minutesAdapted}:${secondsAdapted}`
       : '00:00'}</div>
   )

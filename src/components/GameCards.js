@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './GameCards.css'
 import { images } from '../importImgs';
 import { Card } from './Card';
 import cardBack from '../imgs/backSide.png'
 import { Timer } from './Timer';
 import { CardLoader } from './CardLoader';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { playerContext } from '../providers/PlayerProvider';
+import { ModalEnd } from './ModalEnd';
 
 export const GameCards = ({ timeCD }) => {
 
@@ -15,12 +17,18 @@ export const GameCards = ({ timeCD }) => {
   const [pairFounded, setPairFounded] = useState(0);
   const [disableCards, setDisableCards] = useState([]);
   const [unflipCards, setUnflipCards] = useState([]);
+  const [timeInGame, setTimeInGame] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [moves, setMoves] = useState(0);
+
+  const { playerData, saveMoves } = useContext(playerContext)
+
   const navigation = useNavigate();
 
   //Desordena el array para darle aleatoriedad a la posicion de las cartas
-  useEffect(() => {
-    images.sort(() => Math.random() - 0.5)
-  }, [])
+  // useEffect(() => {
+  //   images.sort(() => Math.random() - 0.5)
+  // }, [])
 
   //Setea las cartas que se le pasen
   const flippedCard = (card) => {
@@ -41,19 +49,27 @@ export const GameCards = ({ timeCD }) => {
     setSecondCard({});
   }
 
+  const handleTime = (time) => {
+    setTimeInGame(time)
+  }
+
+  //Se chequean ambas cards
   const checkBoth = () => {
     if (firstCard.nameCard && secondCard.nameCard && firstCard.nameCard === secondCard.nameCard) {
       if (!disableCards.some(card => card.index === firstCard.index) || !disableCards.some(card => card.index === secondCard.index)) {
         setDisableCards([...disableCards, firstCard, secondCard])
         setPairFounded(pairFounded + 1)
+        setMoves(moves + 1);
       }
       clearFirstSecondCards();
     } else if (firstCard.nameCard && secondCard.nameCard && firstCard.nameCard !== secondCard.nameCard) {
       setUnflipCards([firstCard, secondCard])
       clearFirstSecondCards();
+      setMoves(moves + 1);
     }
   }
 
+  //Detecta que se han seleccionado las cards y ejecuta la funcion de chequeo
   useEffect(() => {
     checkBoth()
   }, [firstCard, secondCard])
@@ -62,23 +78,26 @@ export const GameCards = ({ timeCD }) => {
   useEffect(() => {
     if (pairFounded === 8) {
       setEndGame(true);
-      console.log("juego terminado");
-      console.log("juego terminado");
-      console.log("juego terminado");
     }
   }, [pairFounded])
 
   useEffect(() => {
-    if(endGame){
-      setEndGame(false)
-      navigation('/scores');
+    if (endGame) {
+      setEndGame(true);
+      saveMoves(moves)
+      if (playerData && playerData.name && playerData.score) {
+        setShowModal(true)
+        setTimeout(() => {
+          setShowModal(false);
+          navigation('/');
+        }, 5000);
+      }
     }
-       
-  }, [endGame])
+  }, [endGame, playerData])
 
   return (
     <div className='gameScreen'>
-      <Timer endGame={endGame} timeCD={timeCD} />
+      <Timer endGame={endGame} timeCD={timeCD} handleTime={handleTime} />
 
       {
         timeCD === 0
@@ -99,8 +118,9 @@ export const GameCards = ({ timeCD }) => {
           </div>
           : <CardLoader />
       }
-
-
+      {
+        showModal && <ModalEnd name={playerData.name} scoreTime={playerData.score} moves={moves} />
+      }
     </div>
   )
 }

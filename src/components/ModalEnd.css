@@ -1,0 +1,30 @@
+.modalEnd {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
+  height: 30vw;
+  min-width: 350px;
+  min-height: 250px;
+  background-color: darkblue;
+  border-radius: 7px;
+  border: 2px solid white;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.modalName, .modalMoves {
+  max-width: 100%;
+  font-size: 2rem;
+}
+
+.modalScoreTime {
+  max-width: 100%;
+  font-size: 3rem;
+}

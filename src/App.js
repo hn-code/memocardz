@@ -4,7 +4,7 @@ import { Memocardz } from './components/Memocardz';
 function App() {
   return (
       <div className="App">
-        <Memocardz/>
+        <Memocardz />
       </div>
   );
 }
