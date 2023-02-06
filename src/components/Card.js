@@ -43,7 +43,7 @@ export const Card = ({ card, index, cardBack, flippedCard, disableCards, unflipC
   }, [disableCards])
 
   return (
-    <div className="grid-cell"><img className={clickedCard ? 'img' : ''} src={isFlipped ? srcCard : srcCardBack} alt={nameCard} onClick={canBeClick ? handleClick : ()=>{}} /></div>
+    <div className="grid-cell"><img className={clickedCard ? 'img' : ''} src={isFlipped ? srcCard : srcCardBack} alt={nameCard? nameCard : 'card'} onClick={canBeClick ? handleClick : ()=>{}} /></div>
   )
 }
 
