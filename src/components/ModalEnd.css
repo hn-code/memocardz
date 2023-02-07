@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -22,9 +22,22 @@
 .modalName, .modalMoves {
   max-width: 100%;
   font-size: 2rem;
+  margin: 10px 0px;
+  text-align: center;
 }
 
 .modalScoreTime {
   max-width: 100%;
   font-size: 3rem;
+  margin: 10px 0px;
+}
+
+@media screen and (max-width: 900px) {
+  .modalName, .modalMoves {
+    font-size: 1.5rem;
+  }
+  
+  .modalScoreTime {
+    font-size: 2.5rem;
+  }
 }

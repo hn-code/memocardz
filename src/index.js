@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         path: '/game',
         element: <PreGame />
     }
-])
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

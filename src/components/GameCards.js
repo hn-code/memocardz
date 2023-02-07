@@ -26,9 +26,9 @@ export const GameCards = ({ timeCD }) => {
   const navigation = useNavigate();
 
   //Desordena el array para darle aleatoriedad a la posicion de las cartas
-  useEffect(() => {
-    images.sort(() => Math.random() - 0.5)
-  }, [])
+  // useEffect(() => {
+  //   images.sort(() => Math.random() - 0.5)
+  // }, [])
 
   //Setea las cartas que se le pasen
   const flippedCard = (card) => {
@@ -75,25 +75,22 @@ export const GameCards = ({ timeCD }) => {
   }, [firstCard, secondCard])
 
   //Una vez alcanzado el maximo par el juego finaliza
-  useEffect(() => {
+    useEffect(() => {
     if (pairFounded === 8) {
+      saveMoves(moves);
       setEndGame(true);
     }
   }, [pairFounded])
 
   useEffect(() => {
-    if (endGame) {
-      setEndGame(true);
-      saveMoves(moves)
-      if (playerData && playerData.name && playerData.score) {
-        setShowModal(true)
-        setTimeout(() => {
-          setShowModal(false);
-          navigation('/');
-        }, 5000);
-      }
-    }
-  }, [endGame, playerData])
+    if (playerData && playerData.name && playerData.score) {
+      setShowModal(true)
+      setTimeout(() => {
+        setShowModal(false);
+        navigation('/');
+      }, 5000);
+    }     
+  },[endGame, playerData])
 
   return (
     <div className='gameScreen'>
