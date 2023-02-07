@@ -26,9 +26,9 @@ export const GameCards = ({ timeCD }) => {
   const navigation = useNavigate();
 
   //Desordena el array para darle aleatoriedad a la posicion de las cartas
-  // useEffect(() => {
-  //   images.sort(() => Math.random() - 0.5)
-  // }, [])
+  useEffect(() => {
+    images.sort(() => Math.random() - 0.5)
+  }, [])
 
   //Setea las cartas que se le pasen
   const flippedCard = (card) => {
