@@ -1,5 +1,5 @@
 .cardLoader {
-  width: 10%;
+  width: 10vw;
   animation: rotation 5s infinite linear
 }
 
@@ -13,5 +13,11 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cardLoader{
+    width: 20vw;
   }
 }
